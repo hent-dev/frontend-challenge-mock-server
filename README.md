@@ -1,5 +1,7 @@
 # frontend-challenge-mock-server
 
+You can acess a live version at: https://desolate-temple-06848.herokuapp.com/
+
 ## Endpoints
 
 - GET `/payment/:id`
