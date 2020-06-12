@@ -2,12 +2,18 @@ GEM
   remote: https://rubygems.org/
   specs:
     backports (3.17.2)
+    concurrent-ruby (1.1.6)
+    faker (2.12.0)
+      i18n (>= 1.6, < 2)
+    i18n (1.8.3)
+      concurrent-ruby (~> 1.0)
     multi_json (1.14.1)
     mustermann (1.1.1)
       ruby2_keywords (~> 0.0.1)
     rack (2.2.2)
     rack-protection (2.0.8.1)
       rack
+    rdiscount (2.2.0.1)
     ruby2_keywords (0.0.2)
     sinatra (2.0.8.1)
       mustermann (~> 1.0)
@@ -27,6 +33,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  faker (~> 2.12)
+  rdiscount (~> 2.2)
   sinatra (~> 2.0)
   sinatra-contrib (~> 2.0)
 

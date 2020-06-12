@@ -10,3 +10,7 @@ gem "sinatra", "~> 2.0"
 
 
 gem "sinatra-contrib", "~> 2.0"
+
+gem "rdiscount", "~> 2.2"
+
+gem "faker", "~> 2.12"
