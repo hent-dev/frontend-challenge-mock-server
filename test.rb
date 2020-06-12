@@ -17,19 +17,19 @@ get '/payments/:id/notifications' do
   basic_notifications = [
     MockPayment.new(body: 'Primeiro email com cobrança enviado',
                     payment_id: params[:id], 
-                    kind:'email_notification'),
+                    kind:'email_notification').to_json,
     MockPayment.new(body: 'Segundo email com cobrança enviado',
                     payment_id: params[:id], 
-                    kind:'email_notification'),
+                    kind:'email_notification').to_json,
     MockPayment.new(body: 'SMS no vencimento enviado ',
                     payment_id: params[:id], 
-                    kind:'sms_notification'),
+                    kind:'sms_notification').to_json,
   ]
   
 #  basic_notifications.pust
   %i[email_notification sms_send]
   payment = MockPayment.new(body: 'bla bla', payment_id: params[:id], kind: 'inbound_message')
-  payment.to_json
+  basic_notifications
 end
 
 post '/payments/:id/notifications' do
