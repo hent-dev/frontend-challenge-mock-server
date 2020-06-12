@@ -15,7 +15,7 @@ MockPayment = Struct.new(:id, :kind, :body,:created_at,:opened_at, :payment_id) 
     puts self
   end
   
-  def to_json
+  def to_json(*)
     self.to_h.to_json
   end
 end
