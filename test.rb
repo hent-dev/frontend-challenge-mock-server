@@ -10,6 +10,16 @@ get '/' do
   markdown File.read("README.md")
 end
 
+get '/payments' do
+  content_type 'application/json'
+  status = %i[pending overdue paid paid cancelled].shuffle
+  payments = []
+  status.each do |s|
+    payments << { id: SecureRandom.uuid, status: s}
+  end
+  payments.to_json
+end
+
 get '/payments/:id' do
   content_type 'application/json'
   status = %i[pending overdue paid paid paid cancelled].sample
