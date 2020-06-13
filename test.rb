@@ -67,10 +67,12 @@ get '/payments/:id/notifications' do
 end
 
 post '/payments/:id/notifications' do
-  content_type 'application/json'
+  # puts request.accept
+  # request.body.rewind
+  # request.body.read
   payment = MockNotification.new(body: params['notification']['body'],
                                  payment_id: params[:id],
                                  kind: 'outbound_message')
+  content_type 'application/json'
   payment.to_json
 end
-
