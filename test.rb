@@ -68,8 +68,9 @@ end
 
 post '/payments/:id/notifications' do
   content_type 'application/json'
-
-  payment = MockPayment.new(body: params[:notification][:body], payment_id: params[:id])
-  payment
+  payment = MockNotification.new(body: params['notification']['body'],
+                                 payment_id: params[:id],
+                                 kind: 'outbound_message')
+  payment.to_json
 end
 
