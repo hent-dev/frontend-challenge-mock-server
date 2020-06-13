@@ -7,7 +7,7 @@ require 'securerandom'
 require 'faker'
 
 get '/' do
-  markdown File.read("README.md")
+  markdown File.read('README.md')
 end
 
 get '/payments' do
