@@ -6,12 +6,24 @@ require "rdiscount"
 require 'securerandom'
 require 'faker'
 
+before do
+  content_type 'application/json'
+  headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+  headers['Access-Control-Allow-Origin'] = '*'
+  headers['Access-Control-Allow-Headers'] = 'accept, authorization, origin'
+end
+
+options '*' do
+  response.headers['Allow'] = 'HEAD,GET,PUT,DELETE,OPTIONS,POST'
+  response.headers['Access-Control-Allow-Headers'] = 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Cache-Control, Accept'
+end
+
 get '/' do
+  content_type 'text/html'
   markdown File.read('README.md')
 end
 
 get '/payments' do
-  content_type 'application/json'
   status = %i[pending overdue paid paid cancelled].shuffle
   payments = []
   status.each do |s|
@@ -21,7 +33,6 @@ get '/payments' do
 end
 
 get '/payments/:id' do
-  content_type 'application/json'
   status = %i[pending overdue paid paid paid cancelled].sample
   attributes = {
     id: params[:id],
@@ -41,7 +52,7 @@ get '/payments/:id' do
       phone_number: Faker::PhoneNumber.cell_phone
     }
   }
-  
+
   if status == :paid
     attributes.merge!(paid_amount_in_cents: attributes[:total_amount_in_cents],
                       paid_at: Time.now - 86_400)
@@ -51,20 +62,18 @@ get '/payments/:id' do
 end
 
 get '/payments/:id/notifications' do
-  content_type 'application/json'
-
   basic_notifications = [
     MockNotification.new(body: 'Primeiro email com cobrança enviado',
-                    payment_id: params[:id], 
+                    payment_id: params[:id],
                     kind:'email_notification'),
     MockNotification.new(body: 'Segundo email com cobrança enviado',
-                    payment_id: params[:id], 
+                    payment_id: params[:id],
                     kind:'email_notification'),
     MockNotification.new(body: 'SMS no vencimento enviado ',
-                    payment_id: params[:id], 
+                    payment_id: params[:id],
                     kind:'sms_notification'),
   ]
-  
+
   if [true, true, false].sample
     emails = ['Gostaria de pedir uma redução de 10% da minha parcela', 'Gostaria de cancelar meu contrato', 'Posso pagar o mês atual atrasado sem multa?']
     payment = MockNotification.new(body: emails.sample,
@@ -83,6 +92,5 @@ post '/payments/:id/notifications' do
   payment = MockNotification.new(body: params['notification']['body'],
                                  payment_id: params[:id],
                                  kind: 'outbound_message')
-  content_type 'application/json'
   payment.to_json
 end
